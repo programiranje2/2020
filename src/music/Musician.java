@@ -8,10 +8,16 @@ import util.Nationality;
 
 public class Musician {
     
+    private static String definition;
+    
     private String name;
     private boolean alive;
     private int age;
     private Nationality nationality;
+    
+    static {
+        definition = "A person who composes or performs music.";
+    }
     
     public Musician(String name, boolean alive, int age, Nationality nationality) {
         super();
@@ -30,6 +36,10 @@ public class Musician {
     
     public Musician() {
         super();
+    }
+    
+    public static void showDefinition() {
+        System.out.println(definition);
     }
     
     @Override
@@ -68,6 +78,14 @@ public class Musician {
 
     public void setNationality(Nationality nationality) {
         this.nationality = nationality;
+    }
+
+    public static String getDefinition() {
+        return definition;
+    }
+
+    public static void setDefinition(String definition) {
+        Musician.definition = definition;
     }
     
 }
