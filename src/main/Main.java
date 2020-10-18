@@ -23,7 +23,11 @@ public class Main {
 //        t.testBreakAndContinue();
 //        t.testArraysOfObjects();
 //        t.testSwitch();
-        t.testIntegerAndDouble();
+//        t.testIntegerAndDouble();
+//        t.testNumberFormating();
+//        t.testStrings();
+//        t.testStringBuffers();
+        t.testArrayLists();
     }
 
 }
