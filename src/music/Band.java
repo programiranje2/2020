@@ -45,7 +45,7 @@ public class Band {
             sb.append(m.getName()).append(", ");
         }
         sb.delete(sb.length() - 2, sb.length());
-        return this.name + "(" + sb.toString() + ")";
+        return this.name + " (" + sb.toString() + ")";
     }
     
     public String getName() {

@@ -4,11 +4,24 @@
  */
 package music;
 
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
 public class Album {
+    
+    public static final GregorianCalendar FIRST_EVER = new GregorianCalendar(1909, 3, 10);
     
     private String title;
     private Song[] songs;
+    private GregorianCalendar releaseDate;
     
+    public Album(String title, Song[] songs, GregorianCalendar releaseDate) {
+        super();
+        this.title = title;
+        this.songs = songs;
+        setReleaseDate(releaseDate);
+    }
+
     public Album(String title, Song[] songs) {
         super();
         this.title = title;
@@ -36,7 +49,13 @@ public class Album {
         for (Song song : this.songs) {
             s.append(song.toString() + "\n\t");
         }
-        return this.title + ":\n\t" + s.toString();
+        StringBuffer released = new StringBuffer();
+        if (this.releaseDate != null) {
+            released.append(" (release date: " + (new SimpleDateFormat("EEE, MMM dd, YYYY")).format(this.releaseDate.getTime()) + ")");
+        } else {
+            released.append(" (release date: unknown)");
+        }
+        return this.title + released + ":\n\t" + s.toString();
     }
 
     public String getTitle() {
@@ -53,6 +72,19 @@ public class Album {
 
     public void setSongs(Song[] songs) {
         this.songs = songs;
+    }
+
+    public GregorianCalendar getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(GregorianCalendar releaseDate) {
+        if (releaseDate.after(FIRST_EVER)) {
+            this.releaseDate = releaseDate;
+        } else {
+            System.out.println("releaseDate must be after FIRST_EVER; set to null by default");
+            this.releaseDate = null;
+        }
     }
 
 }

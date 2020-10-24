@@ -47,6 +47,18 @@ public class Musician {
         // TODO Auto-generated method stub
         return this.name + " (" + this.nationality.name() + "), " + (this.alive ? this.age : "passed away");
     }
+    
+    @Override
+    public boolean equals(Object arg0) {
+        if (!(arg0 instanceof Musician)) {
+            return false;
+        }
+        Musician m = (Musician) arg0;
+        if ((m.getName().equals(this.getName()) && (m.getAge() == this.getAge()) && (m.getNationality() == this.getNationality()))) {
+            return true;
+        }
+        return false;
+    }
 
     public String getName() {
         return name;

@@ -27,7 +27,9 @@ public class Main {
 //        t.testNumberFormating();
 //        t.testStrings();
 //        t.testStringBuffers();
-        t.testArrayLists();
+        t.testEquals();
+//        t.testArrayLists();
+//        t.testGregorianCalendar();
     }
 
 }

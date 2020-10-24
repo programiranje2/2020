@@ -5,7 +5,10 @@
 package test;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import music.Album;
@@ -214,6 +217,13 @@ public class Test {
         System.out.println(jLennon);
     }
     
+    public void testEquals() {
+        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Musician jLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        System.out.println("johnLennon == jLennon:   " + (johnLennon == jLennon));
+        System.out.println("johnLennon.equals(jLennon):   " + (johnLennon.equals(jLennon)));
+    }
+    
     public void testArrayLists() {
 //        ArrayList<String> songTitles = new ArrayList<String>();
 //        String[] titles = {"Look at Me", "Mother", "Working Class Hero"};
@@ -241,6 +251,8 @@ public class Test {
         theBeatles.addMember(ringoStarr);
         System.out.println(theBeatles);
         System.out.println();
+        System.out.println(theBeatles.getMembers().get(3));
+        System.out.println();
         
         theBeatles.addMember(ringoStarr);
         System.out.println(theBeatles);
@@ -248,6 +260,33 @@ public class Test {
         
         theBeatles.removeMember(johnLennon);
         System.out.println(theBeatles);
+    }
+    
+    public void testGregorianCalendar() {
+//        GregorianCalendar c = new GregorianCalendar();
+//        System.out.println(c);
+//        System.out.println(c.getTime());
+//        System.out.println(c.get(Calendar.YEAR));
+//        System.out.println(c.get(Calendar.MONTH));
+//        System.out.println(c.get(Calendar.DAY_OF_MONTH));
+//        System.out.println();
+//        
+//        GregorianCalendar jBirthday = new GregorianCalendar(1940, 9, 9);
+//        System.out.println(jBirthday.getTime());
+//        System.out.println((new SimpleDateFormat("EEE, MMM dd, yyyy")).format(jBirthday.getTime()));
+        
+        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Song mother = new Song("Mother", johnLennon, 1970); 
+        Song lookAtMe = new Song("Look at Me", johnLennon, 1970); 
+        Song god = new Song("God", johnLennon, 1970); 
+        
+        Song[] songs = {mother, lookAtMe, god};
+        Album jLennon = new Album("John Lennon / Plastic Ono Band", songs);
+        System.out.println(jLennon);
+        jLennon.setReleaseDate(new GregorianCalendar(1970, 11, 11));
+        System.out.println(jLennon);
+        jLennon.setReleaseDate(new GregorianCalendar(1870, 11, 11));
+        System.out.println(jLennon);
     }
 
 }
