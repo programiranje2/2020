@@ -13,7 +13,10 @@ import java.util.Scanner;
 
 import music.Album;
 import music.Band;
+import music.Genre;
+import music.HallOfFameRockMusician;
 import music.Musician;
+import music.RockMusician;
 import music.Song;
 import util.Nationality;
 
@@ -287,6 +290,38 @@ public class Test {
         System.out.println(jLennon);
         jLennon.setReleaseDate(new GregorianCalendar(1870, 11, 11));
         System.out.println(jLennon);
+    }
+    
+    public void testInheritance() {
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+        genres.add(Genre.CLASSIC_ROCK);
+        genres.add(Genre.POP_ROCK);
+        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        RockMusician lennon = new RockMusician("John Lennon", false, 80, Nationality.UK, genres);
+        System.out.println(lennon);
+        System.out.println(johnLennon.equals(lennon));
+//        lennon = johnLennon;                          // no, RockMusician is more specific than Musician
+        johnLennon = lennon;
+//        System.out.println(johnLennon.getGenres());   // no, johnLennon is a Musician object, and Musician objects ton't have getGenres()
+    }
+    
+    public void testPolymorphism() {
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+        genres.add(Genre.CLASSIC_ROCK);
+        genres.add(Genre.POP_ROCK);
+        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        RockMusician lennon = new RockMusician("John Lennon", false, 80, Nationality.UK, genres);
+        HallOfFameRockMusician jLennon = new HallOfFameRockMusician("John Lennon", false, 80, Nationality.UK, genres, new GregorianCalendar(1994, 0, 19));
+        
+        johnLennon.play();
+        System.out.println();
+        lennon.play();
+        System.out.println();
+        jLennon.play();
+        System.out.println();
+        
+        Musician jl = jLennon;
+        jl.play();
     }
 
 }

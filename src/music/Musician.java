@@ -10,10 +10,10 @@ public class Musician {
     
     private static String definition;
     
-    private String name;
-    private boolean alive;
-    private int age;
-    private Nationality nationality;
+    protected String name;
+    protected boolean alive;
+    protected int age;
+    protected Nationality nationality;
     
     static {
         definition = "A person who composes or performs music.";
@@ -40,6 +40,10 @@ public class Musician {
     
     public static void showDefinition() {
         System.out.println(definition);
+    }
+    
+    public void play() {
+        System.out.println(this.name + " is playing...");
     }
     
     @Override

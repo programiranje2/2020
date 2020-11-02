@@ -27,9 +27,11 @@ public class Main {
 //        t.testNumberFormating();
 //        t.testStrings();
 //        t.testStringBuffers();
-        t.testEquals();
+//        t.testEquals();
 //        t.testArrayLists();
 //        t.testGregorianCalendar();
+//        t.testInheritance();
+        t.testPolymorphism();
     }
 
 }
