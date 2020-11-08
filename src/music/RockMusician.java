@@ -38,6 +38,12 @@ public class RockMusician extends Musician {
     }
     
     @Override
+    public void display() {
+        // TODO Auto-generated method stub
+        System.out.println(this.name + ", rock musician");
+    }
+    
+    @Override
     public String toString() {
         // TODO Auto-generated method stub
         StringBuffer sb = new StringBuffer();

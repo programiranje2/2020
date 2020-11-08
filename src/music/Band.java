@@ -29,7 +29,7 @@ public class Band {
         }
     }
     
-    public boolean removeMember(Musician m) {
+    public boolean removeMember(Performer m) {
         if (this.members.contains(m)) {
             return this.members.remove(m);
         } else {
@@ -41,7 +41,7 @@ public class Band {
     public String toString() {
         // TODO Auto-generated method stub
         StringBuffer sb = new StringBuffer();
-        for (Musician m : members) {
+        for (Performer m : members) {
             sb.append(m.getName()).append(", ");
         }
         sb.delete(sb.length() - 2, sb.length());

@@ -5,15 +5,12 @@
 package music;
 
 import util.Nationality;
+import util.PerformingArt;
 
-public class Musician {
+public class Musician extends Performer implements Artist {
     
     private static String definition;
-    
-    protected String name;
-    protected boolean alive;
-    protected int age;
-    protected Nationality nationality;
+    protected static final PerformingArt performingArt = PerformingArt.MUSIC;
     
     static {
         definition = "A person who composes or performs music.";
@@ -42,6 +39,16 @@ public class Musician {
         System.out.println(definition);
     }
     
+    @Override
+    public void perform() {
+        this.play();
+    }
+    
+    @Override
+    public void display() {
+        System.out.println(this.name + ", musician");
+    }
+
     public void play() {
         System.out.println(this.name + " is playing...");
     }
@@ -64,38 +71,6 @@ public class Musician {
         return false;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Nationality getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(Nationality nationality) {
-        this.nationality = nationality;
-    }
-
     public static String getDefinition() {
         return definition;
     }
@@ -103,5 +78,9 @@ public class Musician {
     public static void setDefinition(String definition) {
         Musician.definition = definition;
     }
-    
+
+    public static PerformingArt getPerformingart() {
+        return performingArt;
+    }
+
 }

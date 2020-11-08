@@ -9,13 +9,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 import music.Album;
+import music.Artist;
 import music.Band;
+import music.Dancer;
 import music.Genre;
 import music.HallOfFameRockMusician;
 import music.Musician;
+import music.Performer;
 import music.RockMusician;
 import music.Song;
 import util.Nationality;
@@ -36,7 +41,7 @@ public class Test {
     }
     
     public void testMusician() {
-        Musician johnLennon = new Musician("John", false, 80, Nationality.UK);
+        Performer johnLennon = new Musician("John", false, 80, Nationality.UK);
         System.out.println(johnLennon.getName() + " was 40 when he got assassinated.");
         johnLennon.setName("John Lennon");
         System.out.print(johnLennon.getName());
@@ -50,7 +55,7 @@ public class Test {
     }
     
     public void testSong() {
-        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
         Song imagine = new Song("Imagine", johnLennon, 1971);
         System.out.println(imagine);
     }
@@ -133,13 +138,13 @@ public class Test {
 //        theBeatles[2] = new Musician("George Harrison", false, 77, Nationality.UK);
 //        theBeatles[3] = new Musician("Ringo Starr", true, 80, Nationality.UK);
         
-        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
-        Musician paulMcCartney = new Musician("Paul McCartney", true, 78, Nationality.UK);
-        Musician georgeHarrison = new Musician("George Harrison", false, 77, Nationality.UK);
-        Musician ringoStarr = new Musician("Ringo Starr", true, 80, Nationality.UK);
-        Musician[] theBeatles = {johnLennon, paulMcCartney, georgeHarrison, ringoStarr};
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer paulMcCartney = new Musician("Paul McCartney", true, 78, Nationality.UK);
+        Performer georgeHarrison = new Musician("George Harrison", false, 77, Nationality.UK);
+        Performer ringoStarr = new Musician("Ringo Starr", true, 80, Nationality.UK);
+        Performer[] theBeatles = {johnLennon, paulMcCartney, georgeHarrison, ringoStarr};
         
-        for (Musician m : theBeatles) {
+        for (Performer m : theBeatles) {
             System.out.println(m);
         }
         
@@ -210,7 +215,7 @@ public class Test {
         System.out.println(sb);
         System.out.println();
         
-        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
         Song mother = new Song("Mother", johnLennon, 1970); 
         Song lookAtMe = new Song("Look at Me", johnLennon, 1970); 
         Song god = new Song("God", johnLennon, 1970); 
@@ -221,8 +226,8 @@ public class Test {
     }
     
     public void testEquals() {
-        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
-        Musician jLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer jLennon = new Musician("John Lennon", false, 80, Nationality.UK);
         System.out.println("johnLennon == jLennon:   " + (johnLennon == jLennon));
         System.out.println("johnLennon.equals(jLennon):   " + (johnLennon.equals(jLennon)));
     }
@@ -278,7 +283,7 @@ public class Test {
 //        System.out.println(jBirthday.getTime());
 //        System.out.println((new SimpleDateFormat("EEE, MMM dd, yyyy")).format(jBirthday.getTime()));
         
-        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
         Song mother = new Song("Mother", johnLennon, 1970); 
         Song lookAtMe = new Song("Look at Me", johnLennon, 1970); 
         Song god = new Song("God", johnLennon, 1970); 
@@ -296,7 +301,7 @@ public class Test {
         ArrayList<Genre> genres = new ArrayList<Genre>();
         genres.add(Genre.CLASSIC_ROCK);
         genres.add(Genre.POP_ROCK);
-        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
         RockMusician lennon = new RockMusician("John Lennon", false, 80, Nationality.UK, genres);
         System.out.println(lennon);
         System.out.println(johnLennon.equals(lennon));
@@ -322,6 +327,71 @@ public class Test {
         
         Musician jl = jLennon;
         jl.play();
+    }
+    
+    public void testAbstractClasses() {
+//        Performer p = new Performer();    // no, Performer is an abstract class
+        Performer p = new Musician();       // this is OK - instantiating by a subclass object
+        
+        ArrayList<Genre> genres = new ArrayList<Genre>();
+        genres.add(Genre.CLASSIC_ROCK);
+        genres.add(Genre.POP_ROCK);
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Performer lennon = new RockMusician("John Lennon", false, 80, Nationality.UK, genres);
+        HallOfFameRockMusician jLennon = new HallOfFameRockMusician("John Lennon", false, 80, Nationality.UK, genres, new GregorianCalendar(1994, 0, 19));
+        
+        johnLennon.perform();
+        System.out.println();
+        lennon.perform();
+        System.out.println();
+        jLennon.play();
+        System.out.println();
+        System.out.println();
+        
+        Performer madonna = new Dancer("Madonna", 50, Nationality.USA);
+        madonna.perform();
+    }
+    
+    public void testInterfaces() {
+        Artist johnLennon = new Musician("John Lennon", -1, Nationality.UK);
+        Artist jLennon = new RockMusician("John Lennon", -1, Nationality.UK);
+        johnLennon.display();
+        jLennon.display();
+        System.out.println();
+        
+        List<Genre> genres = new ArrayList<Genre>();
+        genres.add(Genre.CLASSIC_ROCK);
+        genres.add(Genre.POP_ROCK);
+        System.out.println(genres);
+
+    }
+    
+    public void testIterators() {
+        Musician johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        Musician paulMcCartney = new Musician("Paul McCartney", true, 78, Nationality.UK);
+        Musician georgeHarrison = new Musician("George Harrison", false, 77, Nationality.UK);
+        Musician ringoStarr = new Musician("Ringo Starr", true, 80, Nationality.UK);
+        
+        ArrayList<Musician> theBeatlesList = new ArrayList<Musician>();
+        theBeatlesList.add(johnLennon);
+        theBeatlesList.add(paulMcCartney);
+        theBeatlesList.add(georgeHarrison);
+        theBeatlesList.add(ringoStarr);
+        
+//        // This does not work, throws java.util.ConcurrentModificationException
+//        for (Musician m : theBeatlesList) {
+//            theBeatlesList.remove(m);
+//        }
+        
+        Iterator<Musician> i = theBeatlesList.iterator();
+        while (i.hasNext()) {
+            System.out.println(theBeatlesList);
+            i.next();
+            i.remove();
+        }
+        
+        System.out.println(i.hasNext());
+//        System.out.println(i.next());         // no more, iterator is exhausted
     }
 
 }

@@ -31,7 +31,10 @@ public class Main {
 //        t.testArrayLists();
 //        t.testGregorianCalendar();
 //        t.testInheritance();
-        t.testPolymorphism();
+//        t.testPolymorphism();
+//        t.testAbstractClasses();
+//        t.testInterfaces();
+        t.testIterators();
     }
 
 }

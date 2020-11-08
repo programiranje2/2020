@@ -7,10 +7,10 @@ package music;
 public class Song {
     
     private String title;
-    private Musician author;
+    private Performer author;
     private int year;
     
-    public Song(String title, Musician author, int year) {
+    public Song(String title, Performer author, int year) {
         super();
         this.title = title;
         this.author = author;
@@ -35,11 +35,11 @@ public class Song {
         this.title = title;
     }
 
-    public Musician getAuthor() {
+    public Performer getAuthor() {
         return author;
     }
 
-    public void setAuthor(Musician author) {
+    public void setAuthor(Performer author) {
         this.author = author;
     }
 
