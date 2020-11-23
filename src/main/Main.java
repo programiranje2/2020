@@ -34,7 +34,8 @@ public class Main {
 //        t.testPolymorphism();
 //        t.testAbstractClasses();
 //        t.testInterfaces();
-        t.testIterators();
+//        t.testIterators();
+        t.testExceptions();
     }
 
 }

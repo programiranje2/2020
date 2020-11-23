@@ -82,5 +82,5 @@ public class Musician extends Performer implements Artist {
     public static PerformingArt getPerformingart() {
         return performingArt;
     }
-
+    
 }

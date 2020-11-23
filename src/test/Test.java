@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import music.Album;
+import music.AlreadyPlayedException;
 import music.Artist;
 import music.Band;
 import music.Dancer;
@@ -21,8 +22,10 @@ import music.Genre;
 import music.HallOfFameRockMusician;
 import music.Musician;
 import music.Performer;
+import music.Playlist;
 import music.RockMusician;
 import music.Song;
+import music.SongNotInPlaylistException;
 import util.Nationality;
 
 public class Test {
@@ -392,6 +395,46 @@ public class Test {
         
         System.out.println(i.hasNext());
 //        System.out.println(i.next());         // no more, iterator is exhausted
+    }
+    
+    public void testExceptions() {
+//        int[] n = {1, 2, 3};
+//        for (int i = 0; i <= n.length; i++) {
+//            System.out.println(n[i]);
+//        }
+        
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        
+        Song mother = new Song("Mother", johnLennon, 1970); 
+        Song lookAtMe = new Song("Look at Me", johnLennon, 1970); 
+        Song god = new Song("God", johnLennon, 1970); 
+        Song isolation = new Song("Isolation", johnLennon, 1970); 
+        
+        Playlist playlist = new Playlist();
+        playlist.setTitle("John Lennon / Plastic Ono Band");
+        
+        playlist.add(mother);
+        playlist.add(lookAtMe);
+        playlist.add(god);
+        
+        System.out.println(playlist);
+        System.out.println();
+        
+//        playlist.setRepeat(false);
+        playlist.setRepeat(true);
+        playlist.playAll();
+//        playlist.playAll();
+        System.out.println();
+        
+        try {
+            playlist.playSong(isolation);
+        } catch (AlreadyPlayedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SongNotInPlaylistException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
