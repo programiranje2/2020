@@ -35,7 +35,10 @@ public class Main {
 //        t.testAbstractClasses();
 //        t.testInterfaces();
 //        t.testIterators();
-        t.testExceptions();
+//        t.testExceptions();
+//        t.testIO();
+//        t.testSerialization();
+        t.testDeserialization();
     }
 
 }

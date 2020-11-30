@@ -4,6 +4,16 @@
  */
 package test;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -417,24 +427,103 @@ public class Test {
         playlist.add(lookAtMe);
         playlist.add(god);
         
-        System.out.println(playlist);
-        System.out.println();
+//        System.out.println(playlist);
+//        System.out.println();
         
 //        playlist.setRepeat(false);
-        playlist.setRepeat(true);
         playlist.playAll();
 //        playlist.playAll();
         System.out.println();
         
         try {
             playlist.playSong(isolation);
+//            playlist.playSong(mother);
         } catch (AlreadyPlayedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (SongNotInPlaylistException e) {
             // TODO Auto-generated catch block
+//            e.printStackTrace();
+            System.err.println("Can't play song: " + e.getMessage());
+        } finally {
+            System.out.println("Finally...");
+        }
+        
+//        playlist.setRepeat(true);
+        playlist.playAll();
+    }
+    
+    public void testIO () {
+        
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        
+        Song mother = new Song("Mother", johnLennon, 1970); 
+        Song lookAtMe = new Song("Look at Me", johnLennon, 1970);
+        
+        PrintWriter out = null;
+        
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter(new File("test.txt"))));
+            out.println(mother.getTitle());
+            out.println(mother.getYear());
+            out.println(lookAtMe.getTitle());
+            out.println(lookAtMe.getYear());
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            System.out.println("Done.");
+        }
+        
+        BufferedReader in = null;
+        Song s1 = new Song();
+        Song s2 = new Song();
+        try {
+            in = new BufferedReader(new FileReader(new File("test.txt")));
+            s1.setTitle(in.readLine());
+            s1.setYear(Integer.parseInt(in.readLine()));
+            s2.setTitle(in.readLine());
+            s2.setYear(Integer.parseInt(in.readLine()));
+            in.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            System.out.println("Songs read, but no authors set.");
+        }
+        s1.setAuthor(johnLennon);
+        s2.setAuthor(johnLennon);
+        System.out.println(s1);
+        System.out.println(s2);
+        
+        in = new BufferedReader(new InputStreamReader(System.in));
+        String something = null;
+        System.out.print("Read something: ");
+        try {
+            something = in.readLine();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println(something);
+    }
+    
+    public void testSerialization() {
+        Performer johnLennon = new Musician("John Lennon", false, 80, Nationality.UK);
+        
+        Song mother = new Song("Mother", johnLennon, 1970); 
+        
+        mother.serialize("mother.serialized");
+    }
+    
+    public void testDeserialization() {
+        Song mother = Song.deserialize("mother.serialized");
+        System.out.println(mother);
     }
 
 }

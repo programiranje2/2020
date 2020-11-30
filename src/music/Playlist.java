@@ -45,9 +45,9 @@ public class Playlist {
     public void playSong(Song s) throws AlreadyPlayedException, SongNotInPlaylistException {
 //        System.out.println(s);
         int i = this.songs.indexOf(s);
-        if (!(i >= 0) && (i < this.songs.size()))
+        if (!((i >= 0) && (i < this.songs.size())))
             throw new SongNotInPlaylistException(s, this);
-        if (!this.repeat && !this.alreadyPlayed.get(i)) {
+        if (!this.alreadyPlayed.get(i)) {
             System.out.println("Playing " + s);
             this.alreadyPlayed.set(i, true);
         } else {

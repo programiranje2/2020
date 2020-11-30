@@ -4,9 +4,14 @@
  */
 package music;
 
+import java.io.Serializable;
+
 import util.Nationality;
 
-public abstract class Performer {
+public abstract class Performer implements Serializable {
+    
+    static final long serialVersionUID = 3L;
+
 
     protected String name;
     protected boolean alive;

@@ -4,13 +4,17 @@
  */
 package music;
 
+import java.io.Serializable;
+
 import util.Nationality;
 import util.PerformingArt;
 
-public class Musician extends Performer implements Artist {
+public class Musician extends Performer implements Artist, Serializable {
     
     private static String definition;
     protected static final PerformingArt performingArt = PerformingArt.MUSIC;
+    
+//    static final long serialVersionUID = 2L;
     
     static {
         definition = "A person who composes or performs music.";

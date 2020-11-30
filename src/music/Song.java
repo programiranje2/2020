@@ -4,7 +4,19 @@
  */
 package music;
 
-public class Song {
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Song implements Serializable {
+    
+    static final long serialVersionUID = 1L;
     
     private String title;
     private Performer author;
@@ -19,6 +31,36 @@ public class Song {
 
     public Song() {
         super();
+    }
+    
+    public void serialize(String filename) {
+//        ObjectOutputStream out;
+        try (ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File(filename))))) {
+//            out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File(filename))));
+            out.writeObject(this);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            System.out.println("Done.");
+        }
+    }
+    
+    public static Song deserialize(String filename) {
+        Song s = null;
+        try (ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File(filename))))) {
+//          out = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File(filename))));
+          s = (Song) in.readObject();
+      } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      } catch (ClassNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } finally {
+          System.out.println("Done.");
+      }
+        return s;
     }
     
     @Override
