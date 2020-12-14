@@ -21,7 +21,16 @@ public class Song implements Serializable {
     private String title;
     private Performer author;
     private int year;
+    private String lyrics;
     
+    public Song(String title, Performer author, int year, String lyrics) {
+        super();
+        this.title = title;
+        this.author = author;
+        this.year = year;
+        this.lyrics = lyrics;
+    }
+
     public Song(String title, Performer author, int year) {
         super();
         this.title = title;
@@ -91,6 +100,14 @@ public class Song implements Serializable {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getLyrics() {
+        return lyrics;
+    }
+
+    public void setLyrics(String lyrics) {
+        this.lyrics = lyrics;
     }
     
     

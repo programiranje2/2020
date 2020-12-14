@@ -38,7 +38,8 @@ public class Main {
 //        t.testExceptions();
 //        t.testIO();
 //        t.testSerialization();
-        t.testDeserialization();
+//        t.testDeserialization();
+        t.testDirectories();
     }
 
 }

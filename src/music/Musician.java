@@ -6,6 +6,8 @@ package music;
 
 import java.io.Serializable;
 
+import javax.swing.Icon;
+
 import util.Nationality;
 import util.PerformingArt;
 
@@ -20,6 +22,15 @@ public class Musician extends Performer implements Artist, Serializable {
         definition = "A person who composes or performs music.";
     }
     
+    public Musician(String name, boolean alive, int age, Nationality nationality, Icon icon) {
+        super();
+        this.name = name;
+        this.alive = alive;
+        this.age = age;
+        this.nationality = nationality;
+        this.icon = icon;
+    }
+
     public Musician(String name, boolean alive, int age, Nationality nationality) {
         super();
         this.name = name;

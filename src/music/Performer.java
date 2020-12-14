@@ -6,6 +6,8 @@ package music;
 
 import java.io.Serializable;
 
+import javax.swing.Icon;
+
 import util.Nationality;
 
 public abstract class Performer implements Serializable {
@@ -17,6 +19,7 @@ public abstract class Performer implements Serializable {
     protected boolean alive;
     protected int age;
     protected Nationality nationality;
+    protected Icon icon;
 
     public Performer() {
         super();
@@ -60,6 +63,14 @@ public abstract class Performer implements Serializable {
 
     public void setNationality(Nationality nationality) {
         this.nationality = nationality;
+    }
+
+    public Icon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Icon icon) {
+        this.icon = icon;
     }
 
 }

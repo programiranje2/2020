@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import music.Album;
 import music.AlreadyPlayedException;
 import music.Artist;
@@ -37,6 +39,7 @@ import music.RockMusician;
 import music.Song;
 import music.SongNotInPlaylistException;
 import util.Nationality;
+import util.Utility;
 
 public class Test {
     
@@ -524,6 +527,17 @@ public class Test {
     public void testDeserialization() {
         Song mother = Song.deserialize("mother.serialized");
         System.out.println(mother);
+    }
+    
+    public void testDirectories() {
+        System.out.println(Utility.getProjectDir());
+        System.out.println(Utility.getResourcesDir());
+        System.out.println();
+        
+        File resourcesDir = new File(Utility.getResourcesDir());
+        for (File f : resourcesDir.listFiles()) {
+            System.out.println(f.getName());
+        }
     }
 
 }
