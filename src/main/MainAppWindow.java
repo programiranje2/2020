@@ -45,6 +45,8 @@ import javax.swing.SwingConstants;
 
 import music.Musician;
 import music.Song;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class MainAppWindow {
 
@@ -91,7 +93,9 @@ public class MainAppWindow {
     private Musician musician;
     private List<Musician> musicians = new ArrayList<Musician>();
     
-    private MusicianDialog musicianDialog;
+//    private MusicianDialog musicianDialog;
+//    private SongDialog songDialog;
+    
     private JButton btnModifyMusician;
     private JButton btnSaveMusician;
 
@@ -134,6 +138,7 @@ public class MainAppWindow {
         frmRemember.getContentPane().add(getPanelCenter(), BorderLayout.CENTER);
         
         deserializeMusicians();
+        deserializeSongs();
         populateMainAppWindow();
     }
 
@@ -251,6 +256,15 @@ public class MainAppWindow {
     private JComboBox getSongComboBox() {
         if (songComboBox == null) {
         	songComboBox = new JComboBox();
+        	songComboBox.addItemListener(new ItemListener() {
+        	    public void itemStateChanged(ItemEvent arg0) {
+        	        if (arg0.getStateChange() == ItemEvent.SELECTED) {
+        	            Song s = Utility.findSong(((String) songComboBox.getSelectedItem()), songs);
+        	            populateSongInfo(s);
+        	            matchMusicianToSong();
+        	        }
+        	    }
+        	});
         	songComboBox.setPreferredSize(new Dimension(120, 20));
 //            songComboBox.addItem("Mother");
 //            songComboBox.addItem("I Found Out");
@@ -267,7 +281,8 @@ public class MainAppWindow {
     private JLabel getLblAuthorName() {
         if (lblAuthorName == null) {
         	lblAuthorName = new JLabel("");
-        	lblAuthorName.setFont(new Font("Arial", Font.BOLD, 11));
+        	lblAuthorName.setForeground(new Color(30, 144, 255));
+        	lblAuthorName.setFont(new Font("Arial", Font.BOLD, 13));
         }
         return lblAuthorName;
     }
@@ -293,6 +308,11 @@ public class MainAppWindow {
     private JButton getBtnSaveSong() {
         if (btnSaveSong == null) {
         	btnSaveSong = new JButton("Save");
+        	btnSaveSong.addActionListener(new ActionListener() {
+        	    public void actionPerformed(ActionEvent e) {
+        	        serializeSongs();
+        	    }
+        	});
         }
         return btnSaveSong;
     }
@@ -306,6 +326,15 @@ public class MainAppWindow {
     private JComboBox getMusicianComboBox() {
         if (musicianComboBox == null) {
         	musicianComboBox = new JComboBox();
+        	musicianComboBox.addItemListener(new ItemListener() {
+        	    public void itemStateChanged(ItemEvent arg0) {
+        	        if (arg0.getStateChange() == ItemEvent.SELECTED) {
+        	            Musician m = Utility.findMusician(((String) musicianComboBox.getSelectedItem()), musicians);
+        	            populateMusicianInfo(m);
+        	            matchSongToMusician();
+        	        }
+        	    }
+        	});
         }
         return musicianComboBox;
     }
@@ -318,6 +347,8 @@ public class MainAppWindow {
     private JLabel getLblNationalityText() {
         if (lblNationalityText == null) {
         	lblNationalityText = new JLabel("");
+        	lblNationalityText.setForeground(new Color(0, 139, 139));
+        	lblNationalityText.setFont(new Font("Arial", Font.BOLD, 13));
         }
         return lblNationalityText;
     }
@@ -435,6 +466,17 @@ public class MainAppWindow {
     private JMenuItem getMntmNewSong() {
         if (mntmNewSong == null) {
         	mntmNewSong = new JMenuItem("New song...");
+        	mntmNewSong.addActionListener(new ActionListener() {
+        	    public void actionPerformed(ActionEvent e) {
+        	        song = (new SongDialog(frmRemember, true, musicians)).showDialog();
+        	        if (song != null) {
+        	            songs.add(song);
+        	            songComboBox.addItem(song.getTitle());
+        	            songComboBox.setSelectedIndex(songComboBox.getItemCount() - 1);
+        	            populateSongInfo(song);
+        	        }
+        	    }
+        	});
         }
         return mntmNewSong;
     }
@@ -444,6 +486,13 @@ public class MainAppWindow {
         	mntmNewMusician.addActionListener(new ActionListener() {
         	    public void actionPerformed(ActionEvent e) {
         	        musician = (new MusicianDialog(frmRemember, true)).showDialog();
+        	        if (musician != null) {                                                // OK clicked in NewMusician dialog, not Cancel
+        	            musicians.add(musician);
+        	            getMusicianComboBox().addItem(musician.getName());
+        	            getMusicianComboBox().setSelectedIndex(musicianComboBox.getItemCount() - 1);
+        	            populateMusicianInfo(musician);
+        	        }
+//        	        System.out.println(musician);
         	    }
         	});
         }
@@ -452,6 +501,19 @@ public class MainAppWindow {
     private JButton getBtnModifyMusician() {
         if (btnModifyMusician == null) {
         	btnModifyMusician = new JButton("Modify");
+        	btnModifyMusician.addActionListener(new ActionListener() {
+        	    public void actionPerformed(ActionEvent arg0) {
+                    musician = (new MusicianDialog(frmRemember, true)).showDialog();
+                    if (musician != null) {                                                // OK clicked in NewMusician dialog, not Cancel
+                        musicians.remove(Utility.findMusician(((String) musicianComboBox.getSelectedItem()), musicians));
+                        musicianComboBox.removeItemAt(musicianComboBox.getSelectedIndex());
+                        musicians.add(musician);
+                        musicianComboBox.addItem(musician.getName());
+                        musicianComboBox.setSelectedIndex(musicianComboBox.getItemCount() - 1);
+                        populateMusicianInfo(musician);
+                    }
+        	    }
+        	});
         }
         return btnModifyMusician;
     }
@@ -496,6 +558,34 @@ public class MainAppWindow {
         return musicians;
     }
     
+    private void serializeSongs() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File(Utility.getDataDir() + "songs.serialized")))) {
+            out.writeObject(songs);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private List<Song> deserializeSongs() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File(Utility.getDataDir() + "songs.serialized")))) {
+            songs = (List<Song>) in.readObject();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return songs;
+    }
+    
     private void populateMainAppWindow() {
         for (Musician m : musicians) {
             getMusicianComboBox().addItem(m.getName());
@@ -506,6 +596,46 @@ public class MainAppWindow {
         }
         for (Song s : songs) {
             getSongComboBox().addItem(s.getTitle());
+        }
+        if (getSongComboBox().getItemCount() > 0) {
+            getSongComboBox().setSelectedIndex(0);
+            // TO-DO: update main app window with the song author's photo and the selected-song lyrics
+       }
+    }
+    
+    private void populateMusicianInfo(Musician m) {
+        getLblIllustration().setIcon(m.getIcon());
+        getLblNationalityText().setText(m.getNationality().name());
+    }
+    
+    private void populateSongInfo(Song s) {
+        getLblAuthorName().setText(s.getAuthor().getName());
+        getLblYearText().setText(String.valueOf(s.getYear()));
+        getTextArea().setText(s.getLyrics());
+        getLblIllustration().setIcon(s.getAuthor().getIcon());
+    }
+    
+    private void matchMusicianToSong() {
+        Song s = Utility.findSong(((String) songComboBox.getSelectedItem()), songs);
+        Musician m = (Musician) s.getAuthor();
+        String name = m.getName();
+        for (int i = 0; i < musicianComboBox.getItemCount(); i++) {
+            if (name.equals((String) musicianComboBox.getItemAt(i))) {
+                musicianComboBox.setSelectedIndex(i);
+                populateMusicianInfo(m);
+                break;
+            }
+        }
+    }
+    
+    private void matchSongToMusician() {
+        Musician m = Utility.findMusician((String) musicianComboBox.getSelectedItem(), musicians);
+        for (Song s : songs) {
+            if (((Musician) s.getAuthor()).equals(m)) {
+                songComboBox.setSelectedItem(s.getTitle());
+                populateSongInfo(s);
+                break;
+            }
         }
     }
 }

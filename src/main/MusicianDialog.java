@@ -40,6 +40,7 @@ public class MusicianDialog extends JDialog {
     
     private Musician musician;
     private MusicianDialog musicianDialog = this;
+    
     private JLabel lblName;
     private JLabel lblNationality;
     private JLabel lblAge;
@@ -128,9 +129,11 @@ public class MusicianDialog extends JDialog {
         	btnOk.addActionListener(new ActionListener() {
         	    public void actionPerformed(ActionEvent e) {
 //        	        musician = null;
+        	        
+        	        // TO-DO: checking if all relevant musician fields are valid
         	        musician = new Musician();
         	        musician.setName(getTextFieldName().getText());
-        	        musician.setAge(Integer.parseInt((String) getSpinnerAge().getValue()));
+        	        musician.setAge((Integer) getSpinnerAge().getValue());
         	        musician.setAlive((boolean) ((String) (comboBoxAlive.getSelectedItem())).equals("ALIVE") ? true : false); 
         	        for (Nationality n : Nationality.values()) {
         	            if (n.name().equals((String) comboBoxNationality.getSelectedItem())) {

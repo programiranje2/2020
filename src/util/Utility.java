@@ -6,6 +6,10 @@ package util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+
+import music.Musician;
+import music.Song;
 
 public class Utility {
     
@@ -51,4 +55,22 @@ public class Utility {
         return photoFilenames;
     }
 
+    public static Musician findMusician(String name, List<Musician> musicians) {
+        for (Musician m : musicians) {
+            if (m.getName().equals(name)) {
+                return m;
+            }
+        }
+        return null;
+    }
+    
+    public static Song findSong(String title, List<Song> songs) {
+        for (Song s : songs) {
+            if (s.getTitle().equals(title)) {
+                return s;
+            }
+        }
+        return null;
+    }
+    
 }
